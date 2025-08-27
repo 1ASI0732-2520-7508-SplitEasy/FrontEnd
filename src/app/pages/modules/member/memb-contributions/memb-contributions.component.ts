@@ -34,10 +34,10 @@ export class MembContributionsComponent implements OnInit {
 
   fetchContributions(): void {
     this.isLoading = true;
-    this.http.get<any[]>(`https://backend-app-1-vd66.onrender.com/api/v1/member_contributions?member_id=${this.userId}`).subscribe(mcList => {
+    this.http.get<any[]>(`https://backend-vbxt.onrender.com/api/v1/member_contributions?member_id=${this.userId}`).subscribe(mcList => {
       const contribIds = mcList.map(c => c.contribution_id);
-      this.http.get<any[]>(`https://backend-app-1-vd66.onrender.com/api/v1/contributions`).subscribe(allContribs => {
-        this.http.get<any[]>(`https://backend-app-1-vd66.onrender.com/api/v1/bills`).subscribe(bills => {
+      this.http.get<any[]>(`https://backend-vbxt.onrender.com/api/v1/contributions`).subscribe(allContribs => {
+        this.http.get<any[]>(`https://backend-vbxt.onrender.com/api/v1/bills`).subscribe(bills => {
           this.contributions = mcList.map(mc => {
             const contrib = allContribs.find(c => c.id == mc.contribution_id);
             const bill = bills.find(b => b.id == contrib?.bill_id);
@@ -59,7 +59,7 @@ export class MembContributionsComponent implements OnInit {
 
   pagar(contribution: any): void {
     const updated = { ...contribution, status: 'PAGADO', pagado_en: new Date().toISOString() };
-    this.http.patch(`https://backend-app-1-vd66.onrender.com/api/v1/member_contributions/${contribution.id}`, updated).subscribe(() => {
+    this.http.patch(`https://backend-vbxt.onrender.com/api/v1/member_contributions/${contribution.id}`, updated).subscribe(() => {
       this.fetchContributions(); // refrescar lista
     });
   }
